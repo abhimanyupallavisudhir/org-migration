@@ -1,28 +1,36 @@
 #+title: Readme
 
-Run ~migrate_obsidian.sh~ like:
+* Migrate obsidian vault
+
+To migrate your obsidian vault with pandoc ensuring that =.md= files are converted to =.org=, all other filetypes are left untouched, while =.git= and =.obsidian= are ignored. Run ~migrate_obsidian.sh~ like:
 
 #+begin_src bash
 ./migrate_obsidian.sh /path/to/obsidian_vault desired/output/path
 #+end_src
 
-Then within emacs:
+* Update links
+
+Your obsidian vault will likely have contained links to =.md= files. To change this to =.org=: run within emacs:
 
 #+begin_src emacs-lisp
 M-x load-file RET /path/to/script/migrate-obsidian-links.el RET
 M-x migrate-all-file-links-decode-and-md-to-org
 #+end_src
 
-~link-converter.el~ can then be used (copy it into your scratch buffer and evaluate it to get the functions) to mass-convert links to be relative to a vault directory -- provided you set it in your config.el as:
-
+But first make sure that:
+- all links in your obsidian were "relative to file" rather than "relative to vault" (we can migrate these later)
+- (if they weren't, then use the "Link converter" plugin by Ozan Tellioglu to mass-convert them)
+- all /external links/ start with =https://= or whatever; this is important to prevent them from being treated as internal links
+  
+* Get relative-to-vault links
 #+begin_src emacs-lisp
 (setq org-link-abbrev-alist
-        '(("orgr" . "~/gdrive/Gittable/org/"))) ;; or whatever abbreviation you want
+        '(("orgr" . "~/gdrive/Gittable/org/"))) ;; or whatever abbreviation you want . wherever your org directory is
 #+end_src
 
-or
+or more preferably:
 
-#+begin_src emacs-lisp
+#+begin_src 
 (org-link-set-parameters
    "orgr"
    :follow (lambda (path)
@@ -33,4 +41,8 @@ or
                  (concat "orgr:" (file-relative-name file base)))))
 #+end_src
 
-Then you can get links like [[orgr:relative/path/in/org/directory/][orgr:relative/path/in/org/directory]].
+Both of these allow you to get links like [[orgr:relative/path/in/org/directory/][orgr:relative/path/in/org/directory]]. The latter is more powerful; it gives you proper completions for typing in links.
+
+* Migrating relative-to-file links to relative-to-vault
+
+~link-converter.el~ can then be used (copy it into your scratch buffer and evaluate it to get the functions) to mass-convert links to be relative to a vault directory.
