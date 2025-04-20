@@ -20,4 +20,17 @@ M-x migrate-all-file-links-decode-and-md-to-org
         '(("rorg" . "~/gdrive/Gittable/org/"))) ;; or whatever abbreviation you want
 #+end_src
 
+or
+
+#+begin_src emacs-lisp
+(org-link-set-parameters
+   "orgr"
+   :follow (lambda (path)
+             (find-file (expand-file-name path "~/gdrive/Gittable/org/")))
+   :complete (lambda ()
+               (let* ((base "~/gdrive/Gittable/org/")
+                      (file (read-file-name "orgr file: " base)))
+                 (concat "orgr:" (file-relative-name file base)))))
+#+end_src
+
 Then you can get links like [[root:relative/path/in/org/directory/]].

@@ -154,4 +154,10 @@ If FILE is nil, use the current buffer's file."
         (setq buffer-read-only t)
         (setq-local header-line-format
                     "Backlink viewer: RET to follow links, TAB to fold, q to quit")))
-    (pop-to-buffer buf)))
+    (display-buffer-in-side-window
+     buf
+     '((side . right)
+       (window-width . 0.33)   ;; 33% of frame width
+       (slot . 0)
+       (window-parameters . ((no-other-window . t)
+                             (no-delete-other-windows . t)))))))
