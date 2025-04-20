@@ -1,0 +1,23 @@
+#+title: Readme
+
+Run ~migrate_obsidian.sh~ like:
+
+#+begin_src bash
+./migrate_obsidian.sh /path/to/obsidian_vault desired/output/path
+#+end_src
+
+Then within emacs:
+
+#+begin_src emacs-lisp
+M-x load-file RET /path/to/script/migrate-obsidian-links.el RET
+M-x migrate-all-file-links-decode-and-md-to-org
+#+end_src
+
+~link-converter.el~ can then be used (copy it into your scratch buffer and evaluate it to get the functions) to mass-convert links to be relative to a vault directory -- provided you set it in your config.el as:
+
+#+begin_src emacs-lisp
+(setq org-link-abbrev-alist
+        '(("rorg" . "~/gdrive/Gittable/org/"))) ;; or whatever abbreviation you want
+#+end_src
+
+Then you can get links like [[root:relative/path/in/org/directory/]].
