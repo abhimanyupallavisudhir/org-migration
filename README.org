@@ -17,7 +17,7 @@ M-x migrate-all-file-links-decode-and-md-to-org
 
 #+begin_src emacs-lisp
 (setq org-link-abbrev-alist
-        '(("rorg" . "~/gdrive/Gittable/org/"))) ;; or whatever abbreviation you want
+        '(("orgr" . "~/gdrive/Gittable/org/"))) ;; or whatever abbreviation you want
 #+end_src
 
 or
@@ -33,4 +33,4 @@ or
                  (concat "orgr:" (file-relative-name file base)))))
 #+end_src
 
-Then you can get links like [[root:relative/path/in/org/directory/]].
+Then you can get links like [[orgr:relative/path/in/org/directory/][orgr:relative/path/in/org/directory]].
